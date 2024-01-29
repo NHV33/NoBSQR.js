@@ -3,4 +3,4 @@
  * Module loading footer
  */
 
-export default VanillaQR;
+export default NoBSQR;

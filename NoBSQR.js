@@ -1,8 +1,8 @@
-//https://github.com/chuckfairy/VanillaQR.js
-//VanillaQR Function constructor
+//https://github.com/chuckfairy/Vanilla***QR.js
+//Vanilla***QR Function constructor
 //pass an object with customizable options
 //url, colorLight, colorDark, width, height
-function VanillaQR ( customize ) {
+function NoBSQR ( customize ) {
 
     var scope = this;
 
@@ -157,8 +157,8 @@ function VanillaQR ( customize ) {
     var appendrs = function ( data, dlen, ecbuf, eclen ) {
 
         var i, j, fb;
-        var gexp = VanillaQR.gexp;
-        var glog = VanillaQR.glog;
+        var gexp = NoBSQR.gexp;
+        var glog = NoBSQR.glog;
 
         for (i = 0; i < eclen; i++)
             strinbuf[ecbuf + i] = 0;
@@ -290,7 +290,7 @@ function VanillaQR ( customize ) {
         var runsbad = 0;
         for (i = 0; i <= length; i++)
             if (rlens[i] >= 5)
-                runsbad += VanillaQR.N1 + rlens[i] - 5;
+                runsbad += NoBSQR.N1 + rlens[i] - 5;
         // BwBBBwB as in finder
         for (i = 3; i < length - 1; i += 2)
             if (rlens[i - 2] == rlens[i + 2]
@@ -302,7 +302,7 @@ function VanillaQR ( customize ) {
                     || i + 3 > length  // end
                     || rlens[i - 3] * 3 >= rlens[i] * 4 || rlens[i + 3] * 3 >= rlens[i] * 4)
                )
-                runsbad += VanillaQR.N3;
+                runsbad += NoBSQR.N3;
         return runsbad;
 
     };
@@ -321,7 +321,7 @@ function VanillaQR ( customize ) {
                      && qrframe[x + width * (y + 1)] && qrframe[(x + 1) + width * (y + 1)]) // all black
                     || !(qrframe[x + width * y] || qrframe[(x + 1) + width * y]
                          || qrframe[x + width * (y + 1)] || qrframe[(x + 1) + width * (y + 1)])) // all white
-                    thisbad += VanillaQR.N2;
+                    thisbad += NoBSQR.N2;
             }
         }
 
@@ -351,7 +351,7 @@ function VanillaQR ( customize ) {
         big <<= 1;
         while (big > width * width)
             big -= width * width, count++;
-        thisbad += count * VanillaQR.N4;
+        thisbad += count * NoBSQR.N4;
 
         // Y runs
         for (x = 0; x < width; x++) {
@@ -373,9 +373,9 @@ function VanillaQR ( customize ) {
     //Generate QR frame array
     scope.genframe = function(instring) {
 
-        var eccblocks = VanillaQR.eccblocks;
-        var gexp = VanillaQR.gexp;
-        var glog = VanillaQR.glog;
+        var eccblocks = NoBSQR.eccblocks;
+        var gexp = NoBSQR.gexp;
+        var glog = NoBSQR.glog;
 
         var x, y, k, t, v, i, j, m;
 
@@ -442,7 +442,7 @@ function VanillaQR ( customize ) {
     // alignment blocks
         if (version > 1) {
 
-            t = VanillaQR.adelta[version];
+            t = NoBSQR.adelta[version];
             y = width - 7;
             for (;;) {
                 x = width - 7;
@@ -498,7 +498,7 @@ function VanillaQR ( customize ) {
 
     // version block
         if (version > 6) {
-            t = VanillaQR.vpat[version - 7];
+            t = NoBSQR.vpat[version - 7];
             k = 17;
             for (x = 0; x < 6; x++)
                 for (y = 0; y < 3; y++, k--)
@@ -683,7 +683,7 @@ function VanillaQR ( customize ) {
             applymask(t);
 
     // add in final mask/ecclevel bytes
-        y = VanillaQR.fmtword[t + ((ecclevel - 1) << 3)];
+        y = NoBSQR.fmtword[t + ((ecclevel - 1) << 3)];
         // low byte
         for (k = 0; k < 8; k++, y >>= 1)
             if (y & 1) {
@@ -731,7 +731,7 @@ function VanillaQR ( customize ) {
 }
 
 //Get canvas 2D Context
-VanillaQR.prototype = {
+NoBSQR.prototype = {
 
     //Canvas create
     canvasWrite: function(qf, width) {
@@ -1002,14 +1002,14 @@ VanillaQR.prototype = {
 
 // Private variables
 // alignment pattern
-VanillaQR.adelta = [
+NoBSQR.adelta = [
   0, 11, 15, 19, 23, 27, 31, // force 1 pat
   16, 18, 20, 22, 24, 26, 28, 20, 22, 24, 24, 26, 28, 28, 22, 24, 24,
   26, 26, 28, 28, 24, 24, 26, 26, 26, 28, 28, 24, 26, 26, 26, 28, 28
 ];
 
 // version block
-VanillaQR.vpat = [
+NoBSQR.vpat = [
     0xc94, 0x5bc, 0xa99, 0x4d3, 0xbf6, 0x762, 0x847, 0x60d,
     0x928, 0xb78, 0x45d, 0xa17, 0x532, 0x9a6, 0x683, 0x8c9,
     0x7ec, 0xec4, 0x1e1, 0xfab, 0x08e, 0xc1a, 0x33f, 0xd75,
@@ -1018,7 +1018,7 @@ VanillaQR.vpat = [
 ];
 
 // final format bits with mask: level << 3 | mask
-VanillaQR.fmtword = [
+NoBSQR.fmtword = [
     0x77c4, 0x72f3, 0x7daa, 0x789d, 0x662f, 0x6318, 0x6c41, 0x6976,    //L
     0x5412, 0x5125, 0x5e7c, 0x5b4b, 0x45f9, 0x40ce, 0x4f97, 0x4aa0,    //M
     0x355f, 0x3068, 0x3f31, 0x3a06, 0x24b4, 0x2183, 0x2eda, 0x2bed,    //Q
@@ -1026,7 +1026,7 @@ VanillaQR.fmtword = [
 ];
 
 // 4 per version: number of blocks 1,2; data width; ecc width
-VanillaQR.eccblocks = [
+NoBSQR.eccblocks = [
     1, 0, 19, 7, 1, 0, 16, 10, 1, 0, 13, 13, 1, 0, 9, 17,
     1, 0, 34, 10, 1, 0, 28, 16, 1, 0, 22, 22, 1, 0, 16, 28,
     1, 0, 55, 15, 1, 0, 44, 26, 2, 0, 17, 18, 2, 0, 13, 22,
@@ -1070,7 +1070,7 @@ VanillaQR.eccblocks = [
 ];
 
 // Galois field log table
-VanillaQR.glog = [
+NoBSQR.glog = [
     0xff, 0x00, 0x01, 0x19, 0x02, 0x32, 0x1a, 0xc6, 0x03, 0xdf, 0x33, 0xee, 0x1b, 0x68, 0xc7, 0x4b,
     0x04, 0x64, 0xe0, 0x0e, 0x34, 0x8d, 0xef, 0x81, 0x1c, 0xc1, 0x69, 0xf8, 0xc8, 0x08, 0x4c, 0x71,
     0x05, 0x8a, 0x65, 0x2f, 0xe1, 0x24, 0x0f, 0x21, 0x35, 0x93, 0x8e, 0xda, 0xf0, 0x12, 0x82, 0x45,
@@ -1090,7 +1090,7 @@ VanillaQR.glog = [
 ];
 
 // Galios field exponent table
-VanillaQR.gexp = [
+NoBSQR.gexp = [
     0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1d, 0x3a, 0x74, 0xe8, 0xcd, 0x87, 0x13, 0x26,
     0x4c, 0x98, 0x2d, 0x5a, 0xb4, 0x75, 0xea, 0xc9, 0x8f, 0x03, 0x06, 0x0c, 0x18, 0x30, 0x60, 0xc0,
     0x9d, 0x27, 0x4e, 0x9c, 0x25, 0x4a, 0x94, 0x35, 0x6a, 0xd4, 0xb5, 0x77, 0xee, 0xc1, 0x9f, 0x23,
@@ -1110,13 +1110,7 @@ VanillaQR.gexp = [
 ];
 
 // Badness coefficients.
-VanillaQR.N1 = 3;
-VanillaQR.N2 = 3;
-VanillaQR.N3 = 40;
-VanillaQR.N4 = 10;
-
-/**
- * Module loading footer
- */
-
-export default VanillaQR;
+NoBSQR.N1 = 3;
+NoBSQR.N2 = 3;
+NoBSQR.N3 = 40;
+NoBSQR.N4 = 10;

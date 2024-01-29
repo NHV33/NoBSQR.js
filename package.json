@@ -2,15 +2,15 @@
     "name": "nobsqr",
     "version": "1.0.0",
     "description": "Client Side QR Code Generator",
-    "browser": "VanillaQR.module.js",
+    "browser": "NoBSQR.module.js",
     "scripts": {
-        "build": "./bin/build.sh"
+        "build": "node bin/build.js"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/nhv33/noBSqr.js.git"
+        "url": "git+https://github.com/nhv33/NoBSQR.js.git"
     },
-    "module": "noBSqr.module.js",
+    "module": "NoBSQR.module.js",
     "keywords": [
         "qr",
         "client-side",
@@ -23,11 +23,11 @@
     "author": "NHV33",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/nhv33/noBSqr.js/issues"
+        "url": "https://github.com/nhv33/NoBSQR.js/issues"
     },
-    "homepage": "https://github.com/nhv33/noBSqr.js#readme",
+    "homepage": "https://github.com/nhv33/NoBSQR.js#readme",
     "devDependencies": {
-        "minify": "^5.1.1"
+        "minify": "^11.0.1"
     },
     "dependencies": {}
 }
