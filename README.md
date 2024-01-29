@@ -1,6 +1,14 @@
-# VanillaQR clientside javascript QR code generator
+# noBSqr client-side javascript QR code generator
 
-A small javascript file for creating qr codes on the fly using the HTML5 Canvas element. By default VanillaQR.js will output a canvas element as it's domElement. If the canvas element and 2d context is not supported, it will create a table instead. Tables will not be able to output images so be sure to check that the image element exists.
+A fork of Chuck Fairy's Vanilla.js, which is a small javascript file that runs client-side and outputs QR codes using the HTML5 Canvas element or tables for support with legacy browsers.
+
+New Features:
+- Border width can now be updated dynamically (HTML canvas & tables).
+- The QR code URL/text string can be displayed above, below, or over the QR code (HTML canvas only).
+- When URL/text is displayed over the QR code, error correction is automatically set to maximum.
+- The dots composing the QR code can be rendered with rounded corners.
+- If noBorder is set as true, then borderWidth is set to 0 (and vice versa).
+- Borders less than 20px force the URL/text to display over the QR code.
 
 ## How to use
 
@@ -12,8 +20,8 @@ A small javascript file for creating qr codes on the fly using the HTML5 Canvas 
 //Minus the url, these are the defaults
 var qr = new VanillaQR({
 
-    url: "https://github.com/chuckfairy/VanillQR.js",
-    size: 280,
+    url: "https://github.com/NHV/noBSqr.js",
+    size: 300,
 
     colorLight: "#ffffff",
     colorDark: "#000000",
@@ -28,7 +36,7 @@ var qr = new VanillaQR({
     noBorder: false,
 
     //Border size to output at
-    borderSize: 4
+    borderSize: 30
 
 });
 
@@ -47,7 +55,7 @@ if(imageElement) {
 
 //You can recreate the qr code to a new url like so
 //If you have appended the domElement it will change
-qr.url = "https://github.com/chuckfairy";
+qr.url = "https://github.com/chuckfairy"; // <== Shoutout to the original creator
 qr.colorLight = "#0000000";
 qr.colorDark = "#ffffff";
 qr.init();
@@ -63,7 +71,7 @@ import VanillaQR from "VanillaQR"
 
 //See above for more
 var qr = new VanillaQR({
-    url: "https://github.com/chuckfairy/VanillQR.js",
+    url: "https://github.com/NHV33/noBSqr.js",
 });
 ```
 
@@ -86,13 +94,12 @@ Table support fallback
 * Safari
 * Andriod
 
-Vanilla QR is based on a port of a java qr code library that I can no longer find. When I do find it I'll be sure to give it proper credit. Thank you and have a nice day!
+noBSqr is based on Vanilla QR by Chuck Fairy, which is based on a port of a java qr code library that he could no longer find. Legend says he is still searching for it to this very day.
 
 ## Live Demos
 
-* Demo > http://chuckfairy.com/VanillaQR.js/example.html
-* Creator > http://chuckfairy.com/VanillaQR.js/creator/
+* Coming Soon
 
 ## Special Thanks
 
-- @alberto-salinas
+- @chuckfairy
