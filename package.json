@@ -1,5 +1,5 @@
 {
-    "name": "vanillaqr",
+    "name": "nobsqr",
     "version": "1.0.0",
     "description": "Client Side QR Code Generator",
     "browser": "VanillaQR.module.js",
@@ -8,24 +8,24 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/chuckfairy/VanillaQR.js.git"
+        "url": "git+https://github.com/nhv33/noBSqr.js.git"
     },
-    "module": "VanillaQR.module.js",
+    "module": "noBSqr.module.js",
     "keywords": [
         "qr",
-        "vanilla",
+        "client-side",
         "clientside",
         "client",
         "generator",
         "creator",
         "ecclevel"
     ],
-    "author": "chuckfairy",
+    "author": "NHV33",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/chuckfairy/VanillaQR.js/issues"
+        "url": "https://github.com/nhv33/noBSqr.js/issues"
     },
-    "homepage": "https://github.com/chuckfairy/VanillaQR.js#readme",
+    "homepage": "https://github.com/nhv33/noBSqr.js#readme",
     "devDependencies": {
         "minify": "^5.1.1"
     },

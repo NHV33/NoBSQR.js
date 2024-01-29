@@ -37,7 +37,7 @@ function VanillaQR ( customize ) {
     scope.url = customize.url || "";
 
     //Canvas and qr width and height
-    scope.size  = (customize.size  || 280);
+    scope.size  = (customize.size  || 300);
 
     //QR context
     scope.qrc = false;
@@ -51,8 +51,33 @@ function VanillaQR ( customize ) {
 
     //Border related
     scope.noBorder = customize.noBorder;
-    scope.borderSize = customize.borderSize || 4;
+    scope.borderSize = customize.borderSize || 0;
 
+    // Text Related
+    scope.textDisplay = customize.textDisplay;
+    scope.textPosition = customize.textPosition || "bottom";
+
+    // Style Related
+    scope.pixelRadius = customize.pixelRadius || 0;
+
+    /****************OVERRIDE VALUES******************/
+
+    // Set textDisplay false if textPosition is "hidden" 
+    if (scope.textPosition === "hidden") { scope.textDisplay = false; }
+
+    // Set borderSize to zero if noBorder is true and vice versa.
+    if (scope.borderSize === 0 || scope.noBorder === true) {
+        scope.noBorder = true;
+        scope.borderSize = 0;
+    }
+    
+    // Determine if borders are present and large enough
+    scope.allowTextBorders = (!scope.noBorder && scope.borderSize >= 20)
+    
+    // Set error correction to maximum for centered text
+    // Text display is not supported for tables, so ecc is unchanged
+    if ((!scope.allowTextBorders && !scope.toTable) || scope.textPosition === "center") { scope.ecclevel = 4; }
+    
 
     /********************PRIVATES********************/
 
@@ -729,42 +754,94 @@ VanillaQR.prototype = {
         }
 
         //Setup canvas context
-        var size = scope.size;
+        var qrSize = scope.size;
         var qrc = scope.qrc;
 
-        qrc.lineWidth=1;
+        var canvasSize = qrSize + (scope.borderSize * 2)
 
-        var px = size;
-        px /= width + 10;
-        px=Math.round(px - 0.5);
+        // Individual pixel size
+        var px = qrSize / width;
 
-        var offset = 4;
+        // An alias for scope.borderSize 
+        var offset = scope.borderSize;
 
         if (scope.noBorder) {
-            qrc.canvas.width = qrc.canvas.height = px * width;
+            qrc.canvas.width = qrc.canvas.height = qrSize;
             offset = 0;
         }
         else {
-            qrc.canvas.width = qrc.canvas.height = size;
+            qrc.canvas.width = qrc.canvas.height = canvasSize;
         }
 
         //Fill canvas with set colors
-        qrc.clearRect( 0, 0, size, size );
+        qrc.clearRect( 0, 0, canvasSize, canvasSize );
         qrc.fillStyle = scope.colorLight;
-        qrc.fillRect(0, 0, px*(width+8), px*(width+8));
+        qrc.fillRect(0, 0, canvasSize, canvasSize);
         qrc.fillStyle = scope.colorDark;
+
+        // Slightly overdraws the pixels to prevent visible gaps
+        const overdraw = 1.05;
 
         //Write boxes per row
         for( var i = 0; i < width; i++ ) {
 
             for( var j = 0; j < width; j++ ) {
                 if( qf[j*width+i] ) {
-                    qrc.fillRect(px*(offset+i),px*(offset+j),px,px);
+                    qrc.beginPath();
+                    qrc.roundRect(px * i + offset, px * j + offset, px * overdraw, px * overdraw, [scope.pixelRadius]);
+                    qrc.fill();
                 }
-             }
+            }
 
-         }
+        }
 
+        // Exit function if textDisplay is false
+        if (scope.textDisplay === false) { return; }
+
+        const paddingY = 0.8;
+        const paddingX = 0.95;
+        qrc.textAlign = "center";
+        qrc.textBaseline = "middle";
+        let fontSize = scope.borderSize * paddingY;
+
+        // Text is positioned bottom by default.
+        let verticalPos = canvasSize - (scope.borderSize / 2);
+        
+        if (scope.textPosition === "top") {
+            verticalPos = scope.borderSize / 2;
+        }
+
+        // Default to center text if borders are too small.
+        if (!scope.allowTextBorders || scope.textPosition === "center") {
+            verticalPos = canvasSize / 2;
+            fontSize = canvasSize / 8;
+        }
+        
+        qrc.font = `bold ${fontSize}px monospace`;
+        let textWidth = qrc.measureText(scope.url).width;
+        
+        
+        //  Shrink url text within canvas bounds.
+        let iterCount = 0;
+        while(iterCount < 100 && textWidth > canvasSize * paddingX) {
+        fontSize -= 3;
+        qrc.font = `bold ${fontSize}px monospace`;
+        textWidth = qrc.measureText(scope.url).width;
+        iterCount += 1;
+        }
+        console.log(scope.ecclevel);
+
+        // qrc.shadowColor = "rgba(100,100,100,1)";
+        // qrc.shadowColor = scope.colorDark;
+        // qrc.shadowOffsetX = fontSize / 20;
+        // qrc.shadowOffsetY = fontSize / 20;
+        qrc.lineWidth = fontSize / 5;
+        qrc.strokeStyle = scope.colorDark;
+        // qrc.shadowColor = scope.colorDark;
+        qrc.fillStyle = scope.colorLight;
+        // qrc.font = `${fontSize}px monospace`;
+        qrc.strokeText(scope.url, canvasSize / 2, verticalPos);
+        qrc.fillText(scope.url, canvasSize / 2, verticalPos);
     },
 
     //Table write qr code
@@ -772,11 +849,15 @@ VanillaQR.prototype = {
 
         var scope = this;
 
+        // td
+        var tdWidthPx = Math.round((this.size / width) - 3.5);
+        var tdBorderSize = Math.ceil(scope.borderSize / tdWidthPx);
+
         //Table style
         var collapseStyle = "border:0;border-collapse:collapse;";
-        var tdWidth = Math.round((this.size / width) - 3.5) + "px";
-        var borderWidth = width + ( ( scope.noBorder ) ? 0 : ( scope.borderSize * 2 ) );
-        var sideBorderWidth = scope.borderSize;
+        var tdWidth = tdWidthPx + "px";
+        var borderWidth = width + ( ( scope.noBorder ) ? 0 : ( tdBorderSize * 2 ) );
+        var sideBorderWidth = tdBorderSize;
         var tdStyle = "width:" + tdWidth + ";height:" + tdWidth + ";";
 
         var colorLight = scope.colorLight;
@@ -810,7 +891,7 @@ VanillaQR.prototype = {
 
             var insertNode = table.firstChild;
 
-            for( var i = 0; i < scope.borderSize; i ++ ) {
+            for( var i = 0; i < tdBorderSize; i ++ ) {
 
                 var row = tr.cloneNode();
 
