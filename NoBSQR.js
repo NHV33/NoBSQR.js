@@ -1,5 +1,5 @@
-//https://github.com/chuckfairy/Vanilla***QR.js
-//Vanilla***QR Function constructor
+//https://github.com/chuckfairy/VanillaQR.js
+//VanillaQR Function constructor
 //pass an object with customizable options
 //url, colorLight, colorDark, width, height
 function NoBSQR ( customize ) {
@@ -829,17 +829,10 @@ NoBSQR.prototype = {
         textWidth = qrc.measureText(scope.url).width;
         iterCount += 1;
         }
-        console.log(scope.ecclevel);
 
-        // qrc.shadowColor = "rgba(100,100,100,1)";
-        // qrc.shadowColor = scope.colorDark;
-        // qrc.shadowOffsetX = fontSize / 20;
-        // qrc.shadowOffsetY = fontSize / 20;
         qrc.lineWidth = fontSize / 5;
         qrc.strokeStyle = scope.colorDark;
-        // qrc.shadowColor = scope.colorDark;
         qrc.fillStyle = scope.colorLight;
-        // qrc.font = `${fontSize}px monospace`;
         qrc.strokeText(scope.url, canvasSize / 2, verticalPos);
         qrc.fillText(scope.url, canvasSize / 2, verticalPos);
     },

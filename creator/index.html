@@ -2,102 +2,53 @@
 <html>
 
 <head>
-    <title>VanillaQR.js Creator</title>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-
-    <link rel="stylesheet" href="lib/creator.css">
-    <script src="../VanillaQR.js"></script>
-    <script src="lib/jscolor/jscolor.js"></script>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>No BS QR</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <!-- Uncomment to use old colorjs version -->
+  <!-- <script src="lib/jscolor/jscolor.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.5.2/jscolor.min.js"></script> 
 </head>
 
-<body>
+<body style="background-color: rgb(135, 135, 135);">
+  <div id="controls" class="flex f-col">
+    <label for="qr-text">URL / Text</label>
+    <input id="qr-text" name="qr-text" type="text" value="noBSqr.com">
+    <label for="qr-size">QR Size</label>
+    <input id="qr-size" name="qr-size" type="range" value="300" step="1" min="1" max="1000">
+    <label for="border-size">Border Size</label>
+    <input id="border-size" name="border-size" type="range" value="30" step="1" min="0" max="200">
+    <!-- Uncomment to use old colorjs version -->
+    <!-- <input id="bg-color" name="bg-color"   type="text" class="color" value="#ffffff"> -->
+    <!-- <input id="dot-color" name="dot-color" type="text" class="color" value="#000000"> -->
+    <label for="bg-color">Background Color</label>
+    <input id="bg-color" name="bg-color"   data-jscolor="{}" value="#ffffff">
+    <label for="dot-color">Pixel Color</label>
+    <input id="dot-color" name="dot-color" data-jscolor="{}" value="#000000">
+    <label for="pixel-rounding">Pixel Rounding</label>
+    <input id="pixel-rounding" name="pixel-rounding" type="range" value="0" step="1" min="0" max="10">
+    <label for="qr-text-pos">Text Position</label>
+    <select id="qr-text-pos" name="qr-text-pos">
+      <option value="hidden">Hidden</option>
+      <option value="top">Top</option>
+      <option value="center">Center</option>
+      <option value="bottom" selected="selected">Bottom</option>
+    </select>
 
-    <h1><a href="https://github.com/chuckfairy/VanillaQR.js">VanillaQR.js</a></h1>
-
-    <p>JavaScript and HTML5 QR Generator</p>
-
-    <textarea id="qrUrl">https://github.com/chuckfairy/VanillaQR.js</textarea>
-
-    <p>Color Light <input type="text" class="color" value="FAA7F9" id="colorLight"></p>
-    <p>Color Dark <input type="text" class="color" value="3A005E" id="colorDark"></p>
-
-    <p>Ecclevel
-        <select id="ecclevel">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-        </select>
-    </p>
-
-
-    <button onclick="createQR();">Create QR</button>
-
-    <p><a onclick="exportImage()">Export Image</a><select id="imageTypeSelector"></select></p>
-
-    <script>
-
-    window.onload = function() {
-        setupImageTypes();
-    }
-
-    var qr = new VanillaQR({
-        url: "https://github.com/chuckfairy/VanillaQR.js",
-        size: 400,
-
-        colorLight: "#FAA7F9",
-        colorDark: "#3A005E"
-
-    });
-
-    document.body.appendChild(qr.domElement);
-
-    //Create qr controllers
-    var qrUrl = document.getElementById("qrUrl");
-    var colorLight = document.getElementById("colorLight");
-    var colorDark = document.getElementById("colorDark");
-    var ecclevel = document.getElementById("ecclevel");
-    var imageTypeSelector = document.getElementById("imageTypeSelector");
-
-    function createQR() {
-
-        qr.url = qrUrl.value;
-        qr.colorLight = "#" + colorLight.value;
-        qr.colorDark = "#" + colorDark.value;
-        qr.ecclevel = ecclevel.value;
-
-        qr.init();
-
-    }
-
-    function setupImageTypes() {
-
-        var optionTag = document.createElement("option");
-        for( var type in qr.imageTypes) {
-
-            var typeOption = optionTag.cloneNode();
-
-            typeOption.value = type;
-            typeOption.innerHTML = type;
-
-            imageTypeSelector.appendChild(typeOption);
-        }
-
-    }
-
-    function exportImage() {
-
-        var imageType = imageTypeSelector.options[ imageTypeSelector.selectedIndex ].value;
-        var image = qr.toImage(imageType);
-
-        window.open(image.src);
-
-    }
-
-    </script>
-
+    <label for="qr-ecc">Error Correction Level</label>
+    <select id="qr-ecc" name="qr-ecc">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+    </select>
+  </div>
+  <div class="container flex f-col f-align-center" style="height: 95hv; overflow: hidden; background-color: aqua;">
+    <div id="qr-output">
+    </div>
+  </div>
+  <script type="module" src="script.js"></script>
 </body>
+
 </html>

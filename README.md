@@ -1,4 +1,4 @@
-# noBSqr client-side javascript QR code generator
+# NoBSQR client-side javascript QR code generator
 
 A fork of Chuck Fairy's Vanilla.js, which is a small javascript file that runs client-side and outputs QR codes using the HTML5 Canvas element or tables for support with legacy browsers.
 
@@ -13,30 +13,43 @@ New Features:
 ## How to use
 
 ```html
-<script src="VanillaQR.min.js"></script>
+<script src="NoBSQR.min.js"></script>
 <script>
 
 //Create qr object
 //Minus the url, these are the defaults
-var qr = new VanillaQR({
+var qr = new NoBSQR({
 
-    url: "https://github.com/NHV/noBSqr.js",
-    size: 300,
+    // QR Content
+    url: "https://github.com/NHV/NoBSQR.js",
 
-    colorLight: "#ffffff",
-    colorDark: "#000000",
-
-    //output to table or canvas
-    toTable: false,
-
-    //Ecc correction level 1-4
+    // Error Correction (levels 1-4)
     ecclevel: 1,
 
-    //Use a border or not
+    // Size Parameters
+    size: 300,
+    borderSize: 30,
+
+    // Background Color
+    colorLight: "#ffffff",
+
+    // Pixel Color
+    colorDark: "#000000",
+    
+    // Toggle border
     noBorder: false,
 
-    //Border size to output at
-    borderSize: 30
+    // Toggle use of HTML canvas or tables
+    toTable: false,
+
+    // Toggle text display (can also be hidden if textPosition === "hidden")
+    textDisplay: true,
+
+    // Determine text position
+    textPosition: document.getElementById("qr-text-pos").value
+    
+    // Determine Pixel Rounding (0 by default)
+    pixelRadius: 1,
 
 });
 
@@ -66,12 +79,12 @@ qr.init();
 Through module
 
 ```js
-import VanillaQR from "VanillaQR"
+import NoBSQR from "NoBSQR"
 
 
 //See above for more
-var qr = new VanillaQR({
-    url: "https://github.com/NHV33/noBSqr.js",
+var qr = new NoBSQR({
+    url: "https://github.com/NHV33/NoBSQR.js",
 });
 ```
 
@@ -94,7 +107,7 @@ Table support fallback
 * Safari
 * Andriod
 
-noBSqr is based on Vanilla QR by Chuck Fairy, which is based on a port of a java qr code library that he could no longer find. Legend says he is still searching for it to this very day.
+NoBSQR is based on Vanilla QR by Chuck Fairy, which is based on a port of a java qr code library that he could no longer find. Legend says he is still searching for it to this very day.
 
 ## Live Demos
 
