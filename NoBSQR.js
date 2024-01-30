@@ -787,20 +787,23 @@ NoBSQR.prototype = {
         qrc.fillStyle = scope.colorDark;
 
         // Slightly overdraws the pixels to prevent visible gaps
-        const overdraw = 1.05;
+        const overdraw = 1.06;
         const pxRadius = px * (scope.pixelRadius / 100);
 
         // Disable transparency if pixels are rounded
         if (scope.pixelRadius > 0) {
             qrc.fillStyle = scope.colorDark.slice(0, 7);
         }
+        // Determine if pixels are translucent
+        const pixelsTranslucent = (scope.colorDark.length > 7 && scope.colorDark.slice(-2).toLowerCase() !== "ff");
 
         //Write boxes per row
         for( var i = 0; i < width; i++ ) {
             for( var j = 0; j < width; j++ ) {
                 if( qf[j*width+i] ) {
-                    // Cut a hole for the pixel to support transparency, unless pixels are rounded.
-                    if (pxRadius === 0) {
+                    // Cut a hole for the pixel to support transparency, 
+                    // unless pixels are rounded or colorDark is not transparent.
+                    if (pxRadius === 0 && pixelsTranslucent) {
                         qrc.clearRect(px * i + offset, px * j + offset, px * overdraw, px * overdraw);
                     }
                     qrc.beginPath();
