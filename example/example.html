@@ -4,17 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <title>NoBSQR</title>
-    <script src="NoBSQR.js"></script>
+    <script src="../NoBSQR.js"></script>
 </head>
 
 <body>
+
+    <div id="main" style="display: flex; flex-direction: column; flex-wrap: nowrap; align-items: center;">
+    </div>
 
     <script>
 
     var qr = new NoBSQR({
         url: "http://example.com",
-        width: 400,
-        height: 400,
+        size: 300,
         colorLight: "#FAA7F9",
         colorDark: "#3A005E",
 
@@ -23,8 +25,7 @@
 
     var qrTableBroder = new NoBSQR({
         url: "http://example.com",
-        width: 400,
-        height: 400,
+        size: 300,
         colorLight: "#FAA7F9",
         colorDark: "#3A005E",
         toTable: true,
@@ -34,16 +35,14 @@
 
     var qr2 = new NoBSQR({
         url: "http://example.com",
-        width: 400,
-        height: 400,
+        size: 300,
         colorLight: "#FAA7F9",
         colorDark: "#3A005E"
     });
 
     var qr3 = new NoBSQR({
         url: "http://example.com",
-        width: 400,
-        height: 400,
+        size: 300,
         colorLight: "#FAA7F9",
         colorDark: "#3A005E",
 
@@ -52,8 +51,7 @@
 
     var qr4 = new NoBSQR({
         url: "http://example.com",
-        width: 400,
-        height: 400,
+        size: 300,
         colorLight: "#FAA7F9",
         colorDark: "#3A005E",
 
@@ -68,25 +66,27 @@
         return h2;
     }
 
-    document.body.appendChild(createTitle("Table"));
-    document.body.appendChild(qr.domElement);
+    var main = document.getElementById("main");
 
-    document.body.appendChild(createTitle("Table with big border"));
-    document.body.appendChild(qrTableBroder.domElement);
+    main.appendChild(createTitle("Table"));
+    main.appendChild(qr.domElement);
 
-    document.body.appendChild(createTitle("Table without border"));
-    document.body.appendChild(qr4.domElement);
+    main.appendChild(createTitle("Table with big border"));
+    main.appendChild(qrTableBroder.domElement);
 
-    document.body.appendChild(createTitle("Canvas"));
-    document.body.appendChild(qr2.domElement);
+    main.appendChild(createTitle("Table without border"));
+    main.appendChild(qr4.domElement);
 
-        document.body.appendChild(createTitle("Canvas without border"));
-    document.body.appendChild(qr3.domElement);
+    main.appendChild(createTitle("Canvas"));
+    main.appendChild(qr2.domElement);
+
+    main.appendChild(createTitle("Canvas without border"));
+    main.appendChild(qr3.domElement);
 
     var imageElement = qr2.toImage("png");
     if(imageElement) {
-        document.body.appendChild(createTitle("Canvas Image"));
-        document.body.appendChild(imageElement);
+        main.appendChild(createTitle("Canvas Image"));
+        main.appendChild(imageElement);
     }
 
     </script>

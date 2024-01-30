@@ -45,11 +45,14 @@ var qr = new NoBSQR({
     // Toggle text display (can also be hidden if textPosition === "hidden")
     textDisplay: true,
 
-    // Determine text position
-    textPosition: document.getElementById("qr-text-pos").value
+    // Text Position
+    textPosition: "bottom",
+
+    // Manual Text Adjustment (Accepts a number between -99 and 100)
+    textSizeAdjust: -50;
     
-    // Determine Pixel Rounding (0 by default)
-    pixelRadius: 1,
+    // Pixel Rounding Percent (0 - 100 | 0 by default)
+    pixelRadius: 100,
 
 });
 

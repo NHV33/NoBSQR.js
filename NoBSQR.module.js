@@ -57,8 +57,15 @@ function NoBSQR ( customize ) {
     scope.textDisplay = customize.textDisplay;
     scope.textPosition = customize.textPosition || "bottom";
 
+    // Manual Text Adjustment (Accepts a number between -99 and 100)
+    scope.textSizeAdjust = customize.textSizeAdjust || 0;
+    
     // Style Related
     scope.pixelRadius = customize.pixelRadius || 0;
+
+    // Automatice Text Resizing (these determine text resizing accuracy)
+    scope.textResizeIterationCap = customize.textResizeIterationCap || 1000;
+    scope.textResizeAmount = customize.textResizeAmount || 1;
 
     /****************OVERRIDE VALUES******************/
 
@@ -781,28 +788,36 @@ NoBSQR.prototype = {
 
         // Slightly overdraws the pixels to prevent visible gaps
         const overdraw = 1.05;
-
+        const pxRadius = px * (scope.pixelRadius / 100);
         //Write boxes per row
         for( var i = 0; i < width; i++ ) {
-
             for( var j = 0; j < width; j++ ) {
                 if( qf[j*width+i] ) {
                     qrc.beginPath();
-                    qrc.roundRect(px * i + offset, px * j + offset, px * overdraw, px * overdraw, [scope.pixelRadius]);
+                    qrc.roundRect(px * i + offset, px * j + offset, px * overdraw, px * overdraw, [pxRadius]);
                     qrc.fill();
                 }
             }
-
         }
 
         // Exit function if textDisplay is false
         if (scope.textDisplay === false) { return; }
 
+        // Values -99 through 0 map to 0.1 through 1
+        // Values 0 through 100 map to 1 through 2
+        let manualSizeAdjust = 0;
+        const adjustPercent = Math.abs(scope.textSizeAdjust);
+        if (adjustPercent <= 100) {
+            manualSizeAdjust = (scope.textSizeAdjust < 0 ) ?
+            ((100 - adjustPercent) / 100) :
+            (adjustPercent / 100) + 1;
+        }
+
         const paddingY = 0.8;
         const paddingX = 0.95;
         qrc.textAlign = "center";
         qrc.textBaseline = "middle";
-        let fontSize = scope.borderSize * paddingY;
+        let fontSize = scope.borderSize * manualSizeAdjust * paddingY;
 
         // Text is positioned bottom by default.
         let verticalPos = canvasSize - (scope.borderSize / 2);
@@ -814,7 +829,7 @@ NoBSQR.prototype = {
         // Default to center text if borders are too small.
         if (!scope.allowTextBorders || scope.textPosition === "center") {
             verticalPos = canvasSize / 2;
-            fontSize = canvasSize / 8;
+            fontSize = (qrSize / 8) * manualSizeAdjust;
         }
         
         qrc.font = `bold ${fontSize}px monospace`;
@@ -823,11 +838,11 @@ NoBSQR.prototype = {
         
         //  Shrink url text within canvas bounds.
         let iterCount = 0;
-        while(iterCount < 100 && textWidth > canvasSize * paddingX) {
-        fontSize -= 3;
-        qrc.font = `bold ${fontSize}px monospace`;
-        textWidth = qrc.measureText(scope.url).width;
-        iterCount += 1;
+        while(iterCount < scope.textResizeIterationCap && textWidth > canvasSize * paddingX) {
+            fontSize -= scope.textResizeAmount;
+            qrc.font = `bold ${fontSize}px monospace`;
+            textWidth = qrc.measureText(scope.url).width;
+            iterCount += 1;
         }
 
         qrc.lineWidth = fontSize / 5;
