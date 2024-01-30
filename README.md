@@ -4,6 +4,7 @@ A fork of Chuck Fairy's Vanilla.js, which is a small javascript file that runs c
 
 New Features:
 - Border width can now be updated dynamically (HTML canvas & tables).
+- Both the background and pixels can be transparent.
 - The QR code URL/text string can be displayed above, below, or over the QR code (HTML canvas only).
 - When URL/text is displayed over the QR code, error correction is automatically set to maximum.
 - The dots composing the QR code can be rendered with rounded corners.
@@ -30,11 +31,11 @@ var qr = new NoBSQR({
     size: 300,
     borderSize: 30,
 
-    // Background Color
-    colorLight: "#ffffff",
+    // Background Color (supports alpha transparency)
+    colorLight: "#FFFFFFFF",
 
-    // Pixel Color
-    colorDark: "#000000",
+    // Pixel Color (supports alpha transparency)
+    colorDark: "#000000FF",
     
     // Toggle border
     noBorder: false,

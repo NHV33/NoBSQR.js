@@ -11,8 +11,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.5.2/jscolor.min.js"></script> 
 </head>
 
-<body style="background-color: rgb(52, 52, 52);">
-  <div id="controls" class="flex f-col">
+<body>
+  <div id="controls" class="flex f-col f-just-center">
     <label for="qr-text">URL / Text</label>
     <input id="qr-text" name="qr-text" type="text" value="noBSqr.com">
     <label for="qr-size">QR Size</label>
@@ -25,9 +25,9 @@
     <!-- <input id="bg-color" name="bg-color"   type="text" class="color" value="#ffffff"> -->
     <!-- <input id="dot-color" name="dot-color" type="text" class="color" value="#000000"> -->
     <label for="bg-color">Background Color</label>
-    <input id="bg-color" name="bg-color"   data-jscolor="{}" value="#ffffff">
+    <input id="bg-color" name="bg-color"   data-jscolor="{}" value="#FFFFFFFF">
     <label for="dot-color">Pixel Color</label>
-    <input id="dot-color" name="dot-color" data-jscolor="{}" value="#000000">
+    <input id="dot-color" name="dot-color" data-jscolor="{}" value="#000000FF">
     <label for="pixel-rounding">Pixel Rounding</label>
     <input id="pixel-rounding" name="pixel-rounding" type="range" value="0" step="1" min="0" max="100">
     <label for="qr-text-pos">Text Position</label>
@@ -46,7 +46,8 @@
       <option value="4">4</option>
     </select>
   </div>
-  <div class="container flex f-col f-align-center" style="height: 95hv; overflow: hidden;">
+
+  <div class="container flex f-col f-align-center f-just-center">
     <div id="qr-output">
     </div>
   </div>

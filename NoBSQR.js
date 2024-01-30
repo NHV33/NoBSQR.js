@@ -789,10 +789,20 @@ NoBSQR.prototype = {
         // Slightly overdraws the pixels to prevent visible gaps
         const overdraw = 1.05;
         const pxRadius = px * (scope.pixelRadius / 100);
+
+        // Disable transparency if pixels are rounded
+        if (scope.pixelRadius > 0) {
+            qrc.fillStyle = scope.colorDark.slice(0, 7);
+        }
+
         //Write boxes per row
         for( var i = 0; i < width; i++ ) {
             for( var j = 0; j < width; j++ ) {
                 if( qf[j*width+i] ) {
+                    // Cut a hole for the pixel to support transparency, unless pixels are rounded.
+                    if (pxRadius === 0) {
+                        qrc.clearRect(px * i + offset, px * j + offset, px * overdraw, px * overdraw);
+                    }
                     qrc.beginPath();
                     qrc.roundRect(px * i + offset, px * j + offset, px * overdraw, px * overdraw, [pxRadius]);
                     qrc.fill();
@@ -846,8 +856,11 @@ NoBSQR.prototype = {
         }
 
         qrc.lineWidth = fontSize / 5;
-        qrc.strokeStyle = scope.colorDark;
-        qrc.fillStyle = scope.colorLight;
+        qrc.lineCap = "round";
+        qrc.lineJoin = "round";
+        // Slice is used to remove the two chars responsible for alpha transparency.
+        qrc.strokeStyle = scope.colorDark.slice(0, 7);
+        qrc.fillStyle = scope.colorLight.slice(0, 7);
         qrc.strokeText(scope.url, canvasSize / 2, verticalPos);
         qrc.fillText(scope.url, canvasSize / 2, verticalPos);
     },
