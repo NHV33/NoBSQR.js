@@ -47,15 +47,15 @@ function NoBSQR ( customize ) {
     scope.qrc = false;
 
     //QR colors
-    scope.colorLight = customize.colorLight || '#fff';
-    scope.colorDark = customize.colorDark || "#000";
+    scope.colorLight = customize.colorLight || '#FFFFFFFF';
+    scope.colorDark = customize.colorDark || "#000000FF";
 
     //Correction level
     scope.ecclevel = customize.ecclevel || 1;
 
     //Border related
     scope.noBorder = customize.noBorder;
-    scope.borderSize = customize.borderSize || 0;
+    scope.borderSize = customize.borderSize || 30;
 
     // Text Related
     scope.textDisplay = customize.textDisplay;
@@ -67,7 +67,7 @@ function NoBSQR ( customize ) {
     // Style Related
     scope.pixelRadius = customize.pixelRadius || 0;
 
-    // Automatice Text Resizing (these determine text resizing accuracy)
+    // Automatic Text Resizing (these determine text resizing accuracy)
     scope.textResizeIterationCap = customize.textResizeIterationCap || 1000;
     scope.textResizeAmount = customize.textResizeAmount || 1;
 
@@ -830,7 +830,7 @@ NoBSQR.prototype = {
             (adjustPercent / 100) + 1;
         }
 
-        const paddingY = 0.8;
+        const paddingY = 0.7;
         const paddingX = 0.95;
         qrc.textAlign = "center";
         qrc.textBaseline = "middle";

@@ -4,12 +4,15 @@ A fork of Chuck Fairy's Vanilla.js, which is a small javascript file that runs c
 
 New Features:
 - Border width can now be updated dynamically (HTML canvas & tables).
-- Both the background and pixels can be transparent.
-- The QR code URL/text string can be displayed above, below, or over the QR code (HTML canvas only).
+- QR code background and pixels can be rendered with alpha transparency.
+- QR code pixels can be rendered with rounded corners.
+- URL/text string can be displayed above, below, or over the QR code (HTML canvas only).
 - When URL/text is displayed over the QR code, error correction is automatically set to maximum.
-- The dots composing the QR code can be rendered with rounded corners.
-- If noBorder is set as true, then borderWidth is set to 0 (and vice versa).
-- Borders less than 20px force the URL/text to display over the QR code.
+
+## Live Demos
+
+* http://nobsqr.com
+* https://nhv33.github.io/NoBSQR
 
 ## How to use
 
@@ -17,12 +20,12 @@ New Features:
 <script src="NoBSQR.min.js"></script>
 <script>
 
-//Create qr object
-//Minus the url, these are the defaults
+//Create a qr object
+//Below are the custom parameters and their default values (except for url)
 var qr = new NoBSQR({
 
-    // QR Content
-    url: "https://github.com/NHV/NoBSQR.js",
+    // QR Content (only supports ASCII characters)
+    url: "https://github.com/NHV33/NoBSQR.js",
 
     // Error Correction (levels 1-4)
     ecclevel: 1,
@@ -32,28 +35,37 @@ var qr = new NoBSQR({
     borderSize: 30,
 
     // Background Color (supports alpha transparency)
+    // Colors must be a hexidecimal color value (with or without the alpha channel)
     colorLight: "#FFFFFFFF",
 
     // Pixel Color (supports alpha transparency)
+    // Colors must be a hexidecimal color value (with or without the alpha channel)
     colorDark: "#000000FF",
     
     // Toggle border
     noBorder: false,
 
-    // Toggle use of HTML canvas or tables
+    // Toggle use of HTML canvas or tables (for legacy browsers)
     toTable: false,
 
-    // Toggle text display (can also be hidden if textPosition === "hidden")
+    // Toggle text display (can also be hidden if textPosition is "hidden")
     textDisplay: true,
 
-    // Text Position
+    // Text Position ("top", "center", "bottom", "hidden")
     textPosition: "bottom",
 
     // Manual Text Adjustment (Accepts a number between -99 and 100)
-    textSizeAdjust: -50;
+    // This is useful if textPosition is "center" and large text prevents scanning.
+    textSizeAdjust: 0,
     
-    // Pixel Rounding Percent (0 - 100 | 0 by default)
-    pixelRadius: 100,
+    // Pixel Rounding Percent (0-100)
+    // Values larger than 0 will disable transparency for pixels (colorDark property)
+    pixelRadius: 0,
+
+    // Automatic Text Resizing
+    // These determine text resizing accuracy. Only change if performance is slow.
+    textResizeIterationCap = customize.textResizeIterationCap || 1000,
+    textResizeAmount = customize.textResizeAmount || 1,
 
 });
 
@@ -80,7 +92,7 @@ qr.init();
 </script>
 ```
 
-Through module
+How to import as a module
 
 ```js
 import NoBSQR from "NoBSQR"
@@ -113,10 +125,6 @@ Table support fallback
 
 NoBSQR is based on Vanilla QR by Chuck Fairy, which is based on a port of a java qr code library that he could no longer find. Legend says he is still searching for it to this very day.
 
-## Live Demos
-
-* Coming Soon
-
 ## Special Thanks
 
-- @chuckfairy
+- Creator of VanillaQR.js: chuckfairy
