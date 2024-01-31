@@ -1,7 +1,11 @@
+// NoBSQR.js by NHV33 (Noel H. Vincent)
+//https://github.com/NHV33/NoBSQR.js
+
+//NoBSQR.js is a fork of VanillaQR.js by Chuck Fairy
 //https://github.com/chuckfairy/VanillaQR.js
-//VanillaQR Function constructor
+
+//Function constructor
 //pass an object with customizable options
-//url, colorLight, colorDark, width, height
 function NoBSQR ( customize ) {
 
     var scope = this;
@@ -802,7 +806,7 @@ NoBSQR.prototype = {
             for( var j = 0; j < width; j++ ) {
                 if( qf[j*width+i] ) {
                     // Cut a hole for the pixel to support transparency, 
-                    // unless pixels are rounded or colorDark is not transparent.
+                    // unless pixels are rounded or colorDark is completely opaque.
                     if (pxRadius === 0 && pixelsTranslucent) {
                         qrc.clearRect(px * i + offset, px * j + offset, px * overdraw, px * overdraw);
                     }
