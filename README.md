@@ -12,7 +12,7 @@ New Features:
 ## Live Demos
 
 * ~~http://nobsqr.com~~ (I unfortunately let the domain registration expire and it was picked up by someone else).
-* https://nhv33.github.io/NoBSQR
+* [https://nhv33.github.io/NoBSQR](https://nhv33.github.io/NoBSQR/)
 
 ## How to use
 
